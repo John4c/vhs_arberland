@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "thecreativedodo.usbip-connect",
+        "ms-python.vscode-python-envs",
+        "ms-python.debugpy",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "mhutchie.git-graph",
+    ]
+}
