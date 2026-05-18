@@ -17,27 +17,7 @@ def main(cam_idx: int, path: str) -> None:
             etc.)
         path (str): Pfad zum YOLO26-Modell
     """
-    # GPU-Beschleunigung aktivieren, falls verfügbar
-    device = 'cpu'
-
-    # NVIDIA GPU (CUDA)
-    if torch.cuda.is_available():
-        device = 0
-        print(f'NVIDIA GPU erkannt: {torch.cuda.get_device_name(0)}')
-    # AMD GPU (DirectML für Windows)
-    elif hasattr(torch.backends, 'mps') and torch.backends.mps.is_available():
-        device = 0
-        print('AMD GPU (via DirectML) erkannt')
-    else:
-        print('CPU wird verwendet')
-
-    print(f'Verwendetes Device: {device}')
     model = YOLO(model=path)
-    if isinstance(device, int):
-        model.to(f'cuda:{device}' if torch.cuda.is_available() else 'cpu')
-    else:
-        model.to(device)
-
     cap = cv2.VideoCapture(cam_idx)
     cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'))
     if cap.isOpened() is True:
