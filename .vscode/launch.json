@@ -6,12 +6,31 @@
     "configurations": [
 
         {
-            "name": "Python Debugger: Current File",
+            "name": "Detection",
             "type": "debugpy",
             "request": "launch",
-            "program": "${file}",
+            "program": "./YoloDetect",
             "console": "integratedTerminal",
-            "sudo": true
+            "sudo": true,
+            "args": ["--no-stream", "--task", "det,seg,sem", "--device-index", "0", "--no-show-orig-image"]
+        },
+        {
+            "name": "Pose Estimation",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "./YoloDetect",
+            "console": "integratedTerminal",
+            "sudo": true,
+            "args": ["--stream", "--task", "pose", "--device-index", "0", "--no-show-orig-image"]
+        },
+        {
+            "name": "Classification",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "./YoloDetect",
+            "console": "integratedTerminal",
+            "sudo": true,
+            "args": ["--no-stream", "--task", "cls", "--device-index", "0", "--no-show-orig-image"]
         }
     ]
 }
