@@ -12,7 +12,7 @@
             "program": "./YoloDetect",
             "console": "integratedTerminal",
             "sudo": true,
-            "args": ["--no-stream", "--task", "det,seg,sem", "--device-index", "0", "--no-show-orig-image"]
+            "args": ["--no-stream", "--task", "det,seg", "--device-index", "0", "--no-show-orig-image", "--german"]
         },
         {
             "name": "Pose Estimation",

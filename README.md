@@ -14,10 +14,10 @@ Die aktuelle Demo verwendet ein YOLO26-Modell für verschiedene Anwendungsfälle
 
 Demo-Szenarien sind in `.vscode/launch.json` definiert:
 
-1. **YOLO Detection + Instance Segmentation + Semantic Segmentation**
+1. **YOLO Detection + Instance Segmentation**
    
    - Debug-Konfiguration: `Detection`
-   - Argumente: `--no-stream --task det,seg,sem --device-index 0 --no-show-orig-image`
+   - Argumente: `--no-stream --task det,seg --device-index 0 --no-show-orig-image`
    - Beschreibung: Führe mehrere Modelle gleichzeitig aus und zeige die Ergebnisse als Standbild.
 
 2. **YOLO Pose Estimation**
@@ -37,7 +37,7 @@ Demo-Szenarien sind in `.vscode/launch.json` definiert:
 1. Öffne ein Terminal im Repository-Stammverzeichnis.
 2. Aktiviere gegebenenfalls die Python-Umgebung.
 3. Starte die Anwendung mit:
-   - `python ./YoloDetect --no-stream --task det,seg,sem --device-index 0 --no-show-orig-image`
+   - `python ./YoloDetect --no-stream --task det,seg --device-index 0 --no-show-orig-image`
    - `python ./YoloDetect --stream --task pose --device-index 0 --no-show-orig-image`
    - `python ./YoloDetect --no-stream --task cls --device-index 0 --no-show-orig-image`
 
