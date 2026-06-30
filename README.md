@@ -17,19 +17,19 @@ Demo-Szenarien sind in `.vscode/launch.json` definiert:
 1. **YOLO Detection + Instance Segmentation**
    
    - Debug-Konfiguration: `Detection`
-   - Argumente: `--no-stream --task det,seg --device-index 0 --no-show-orig-image`
+   - Argumente: `--task det,seg --german`
    - Beschreibung: Führe mehrere Modelle gleichzeitig aus und zeige die Ergebnisse als Standbild.
 
 2. **YOLO Pose Estimation**
    
    - Debug-Konfiguration: `Pose Estimation`
-   - Argumente: `--stream --task pose --device-index 0 --no-show-orig-image`
+   - Argumente: `--stream --task pose`
    - Beschreibung: Zeige den Live-Stream mit Pose-Estimation-Ergebnissen an.
 
 3. **YOLO Classification**
    
    - Debug-Konfiguration: `Classification`
-   - Argumente: `--no-stream --task cls --device-index 0 --no-show-orig-image`
+   - Argumente: `--task cls`
    - Beschreibung: Klassifiziere das Kamerabild und zeige das Ergebnis als Standbild.
 
 ## Starten der Demo
@@ -37,15 +37,15 @@ Demo-Szenarien sind in `.vscode/launch.json` definiert:
 1. Öffne ein Terminal im Repository-Stammverzeichnis.
 2. Aktiviere gegebenenfalls die Python-Umgebung.
 3. Starte die Anwendung mit:
-   - `python ./YoloDetect --no-stream --task det,seg --device-index 0 --no-show-orig-image`
-   - `python ./YoloDetect --stream --task pose --device-index 0 --no-show-orig-image`
-   - `python ./YoloDetect --no-stream --task cls --device-index 0 --no-show-orig-image`
+   - `python ./YoloDetect --task det,seg --german`
+   - `python ./YoloDetect --stream --task pose`
+   - `python ./YoloDetect --task cls`
 
 ## Struktur
 
 - `YoloDetect/__main__.py` - Einstiegspunkt der YOLO-Demo
 - `YoloDetect/obj_detect.py` - Kamera-Anbindung
-- `YoloDetect/models/` - Enthält die benötigten YOLO26-Modelldateien. Diese müssen von der Ultralytics-Seite heruntergeladen werden.
+- `YoloDetect/models/` - Enthält die benötigten YOLO26-Modelldateien. Standardmäßig müssen diese von der Ultralytics-Seite heruntergeladen oder selbst trainiert werden.
 
 ---
 

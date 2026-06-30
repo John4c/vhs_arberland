@@ -31,13 +31,8 @@ if __name__ == '__main__':
     }
     parser = argparse.ArgumentParser(description='YOLO26 USB Kamera Live Detection')
     parser.add_argument('--device-index', type=int, default=0, help='Index der USB-Kamera')
-    orig_image_parser = parser.add_mutually_exclusive_group(required=False)
-    orig_image_parser.add_argument('--show-orig-image', dest='orig_image', action='store_true',
-                                   help='Originales Kamera Bild anzeigen')
-    orig_image_parser.add_argument('--no-show-orig-image', dest='orig_image', action='store_false',
-                                   help='Originales Kamera Bild nicht anzeigen')
-    parser.set_defaults(orig_image=True)
-
+    parser.add_argument('--show-orig', dest='show_orig', action='store_true',
+        help='Originales Kamera Bild anzeigen')
     HELP_TEXT = 'YOLO-Aufgabe entsprechend der Modellbenennung: \n\t' +\
         '\n\t'.join([f'{key}: {value}' for key, value in model_description.items()]) +\
         '\n\nBeispiele: \n\t--task det für YOLO26 Detection Modell' +\
@@ -45,22 +40,17 @@ if __name__ == '__main__':
         '\n\nHinweis: Das Modell muss im "models"-Ordner vorhanden sein.'
     parser.add_argument('--task', type=str, default='det', help=HELP_TEXT)
     parser.add_argument('--german', dest='german', action='store_true',
-                        help='Klassenbezeichnungen auf Deutsch anzeigen')
+        help='Klassenbezeichnungen auf Deutsch anzeigen, möglich für det, seg und pose.')
+    parser.add_argument('--stream', dest='stream', action='store_true',
+        help='Live-Stream anzeigen')
+    ARGS = parser.parse_args()
 
-    stream_parser = parser.add_mutually_exclusive_group(required=False)
-    stream_parser.add_argument('--stream', dest='stream', action='store_true',
-                        help='Kamera Live-Stream zur Laufzeit anzeigen')
-    stream_parser.add_argument('--no-stream', dest='stream', action='store_false',
-                        help='Nur Standbild anzeigen')
-    parser.set_defaults(stream=False)
-    args = parser.parse_args()
-
-    requested_tasks = args.task.split(',')
-    assert args.task in model_description or \
+    requested_tasks = ARGS.task.split(',')
+    assert ARGS.task in model_description or \
         all(task in model_description for task in requested_tasks), \
         'Fehler: Ungültige YOLO-Aufgabe. Bitte wählen Sie eine der folgenden Aufgaben: ' + \
         ', '.join(model_description.keys())
-    if args.stream:
+    if ARGS.stream:
         print('Hinweis: Live-Stream wird angezeigt.')
         requested_window_names = {task: f'{model_description[task]} Live-Stream'
                                   for task in requested_tasks}
@@ -82,22 +72,20 @@ if __name__ == '__main__':
 
     for win_name in requested_window_names.values():
         cv2.namedWindow(win_name, cv2.WINDOW_NORMAL)
-    if args.orig_image:
+    if ARGS.show_orig:
         cv2.namedWindow(COMPARE_WINDOW_NAME, cv2.WINDOW_NORMAL)
 
-    with UsbCamAttach(args.device_index) as img_capture:
-        for _ in range(5):  # Kamera aufwärmen
-            img_capture.read()
+    with UsbCamAttach(ARGS.device_index) as img_capture:
         key = 0xFF
         while key not in {ord('q'), 27}:  # Beenden mit [q] oder [ESC]
             image = img_capture.read()
-            if args.orig_image:
+            if ARGS.show_orig:
                 cv2.imshow(COMPARE_WINDOW_NAME, image)
             outputs = {name: model(image) for name, model in requested_models.items()
                        if name in requested_tasks}
             for name, results in outputs.items():
                 # Klassennamen in den Result-Objekten setzen (falls German-Option aktiv)
-                if args.german and name in ('det', 'seg'):
+                if ARGS.german and name in ('det', 'seg', 'pose'):
                     results[0].names = class_names
                 annotated_image = results[0].plot()
                 cv2.imshow(requested_window_names[name], annotated_image)
@@ -105,5 +93,5 @@ if __name__ == '__main__':
 
     for win_name in requested_window_names.values():
         cv2.destroyWindow(win_name)
-    if args.orig_image:
+    if ARGS.show_orig:
         cv2.destroyWindow(COMPARE_WINDOW_NAME)

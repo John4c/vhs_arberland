@@ -12,7 +12,7 @@
             "program": "./YoloDetect",
             "console": "integratedTerminal",
             "sudo": true,
-            "args": ["--no-stream", "--task", "det,seg", "--device-index", "0", "--no-show-orig-image", "--german"]
+            "args": ["--task", "det,seg", "--german"]
         },
         {
             "name": "Pose Estimation",
@@ -21,7 +21,7 @@
             "program": "./YoloDetect",
             "console": "integratedTerminal",
             "sudo": true,
-            "args": ["--stream", "--task", "pose", "--device-index", "0", "--no-show-orig-image"]
+            "args": ["--stream", "--task", "pose"]
         },
         {
             "name": "Classification",
@@ -30,7 +30,7 @@
             "program": "./YoloDetect",
             "console": "integratedTerminal",
             "sudo": true,
-            "args": ["--no-stream", "--task", "cls", "--device-index", "0", "--no-show-orig-image"]
+            "args": ["--task", "cls"]
         }
     ]
 }
